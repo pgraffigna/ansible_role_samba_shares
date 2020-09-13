@@ -1,0 +1,7 @@
+---
+- hosts: samba
+  become: true
+    
+  roles:	 
+    - compartidas
+        

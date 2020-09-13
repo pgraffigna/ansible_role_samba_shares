@@ -1,0 +1,71 @@
+---
+- name: Instalación Samba
+  apt: 
+    name: ['samba']
+    update_cache: yes
+
+- name: Crea el grupo smbgroup
+  group:
+    name: "{{ grupo }}"
+    state: present
+
+- name: Crea usuario smbuser y agrega a grupo smbgroup
+  user:
+    name: "{{ usuario }}"
+    create_home: no
+    shell: /bin/false
+    password: "{{ pass | password_hash('sha512') }}"
+    update_password: on_create
+    groups: "{{ grupo }}"    
+
+- name: Configuración de archivo smb.conf
+  blockinfile:
+    path: "{{ ruta_smb }}/smb.conf"
+    block: | 
+      [global]
+      server string = FileServer
+      workgroup = WORKGROUP
+      security = user
+      map to guest = Bad User
+      name resolve order = bcast host
+      include = /etc/samba/shares.conf    
+    backup: yes
+
+- name: Creacion de carpetas para compartir
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "{{ usuario }}"
+    group: "{{ grupo }}"
+  with_items: 
+    - "{{ compartidas }}_publicos"  
+    - "{{ compartidas }}_privados"
+
+- name: Crear y configurar archivo shares.conf
+  blockinfile:
+    path: "{{ ruta_smb }}/shares.conf"
+    block: |
+      [archivos_publicos]
+      path = /compartidas/archivos_publicos
+      force user = smbuser
+      force group = smbgroup
+      create mask = 0664
+      force create mode = 0664
+      directory mask = 0775
+      force directory mode = 0775
+      public = yes
+      writable = yes
+    
+      [archivos_privados]
+      path = /compartidas/archivos_privados
+      force user = smbuser
+      force group = smbgroup
+      create mask = 0664
+      force create mode = 0664
+      directory mask = 0775
+      force directory mode = 0775
+      public = yes
+      writable = no 
+    create: yes
+  notify: servicio_samba

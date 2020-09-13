@@ -1,0 +1,6 @@
+---
+- name: servicio_samba
+  service: 
+    name: smbd
+    state: restarted 
+    enabled: yes        
