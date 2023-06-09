@@ -1,7 +1,9 @@
 ---
 - hosts: samba
   become: true
+  gather_facts: false
     
   roles:	 
+    - usuarios
     - compartidas
         

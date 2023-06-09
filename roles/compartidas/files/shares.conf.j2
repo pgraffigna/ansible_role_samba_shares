@@ -1,0 +1,16 @@
+[archivos_publicos]
+    path = {{ compartida_publica }}
+    guest ok = yes
+    guest only = yes
+    read only = no
+    create mask = 0664
+    directory mask = 0775
+    valid users = @{{ grupos }}
+
+[archivos_privados]
+    path = {{ compartida_privada }}
+    create mask = 0664
+    directory mask = 0775
+    public = yes
+    writable = no 
+    valid users = @{{ grupos }}

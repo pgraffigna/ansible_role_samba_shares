@@ -1,0 +1,19 @@
+---
+grupos: soporte_sedes
+ruta_smb: /etc/samba
+carpetas_compartidas: /compartidas/archivos
+compartida_publica: /compartidas/archivos_publicos
+compartida_privada: /compartidas/archivos_privados
+samba_conf: shares.conf
+
+# lista de usuarios con acceso a samba
+usuarios:
+  user1: pass1
+  user2: pass2
+  user3: pass3
+
+usuarios_smb:
+  user1: pass_smb1 
+  user2: pass_smb2
+  user3: pass_smb3
+  

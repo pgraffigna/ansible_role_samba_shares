@@ -1,6 +1,0 @@
----
-grupo: smbgroup
-usuario: smbuser
-pass: $PASS
-ruta_smb: /etc/samba
-compartidas: /compartidas/archivos

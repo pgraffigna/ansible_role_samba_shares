@@ -1,18 +1,17 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+IMAGEN = "generic/ubuntu2004"
 
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
-  config.vm.synced_folder ".", "/vagrant", disabled: true
-  
-  config.vm.define "samba" do |smb|
-    smb.vm.box = "geerlingguy/ubuntu2004"
-    smb.vm.network "private_network", ip: "192.168.60.10"
-    smb.vm.hostname = "samba"
+  config.vm.synced_folder ".", "/home/vagrant", type: "rsync", disabled: true
 
-    smb.vm.provider :virtualbox do |vbox|
-      vbox.name = "samba"
-      vbox.memory = 512
+  config.vm.define :server do |s|
+    s.vm.box = IMAGEN
+    s.vm.hostname = "samba"
+
+    s.vm.provider :libvirt do |v| 
+      v.memory = 1024
+      v.cpus = 2
     end
   end
 end
