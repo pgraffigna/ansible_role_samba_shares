@@ -1,31 +1,30 @@
 ---
 - name: Incluye el archivo con las variables
-  include_vars:
+  ansible.builtin.include_vars:
     file: vars_main.yml
-      
+
 - name: Crea el grupo "{{ grupos }}"
-  group:
+  ansible.builtin.group:
     name: "{{ grupos  }}"
     state: present
 
-- name: Creando los usuarios 
-  user: 
+- name: Creando los usuarios
+  ansible.builtin.user:
     name: "{{ item.key }}"
-    create_home: no
+    create_home: false
     password: "{{ item.value | password_hash('sha512') }}"
     shell: "/bin/false"
     groups: "{{ grupos }}"
     update_password: on_create
-  with_items: "{{ usuarios | dict2items }}"    
+  with_items: "{{ usuarios | dict2items }}"
 
 - name: Instalación Samba
-  apt: 
+  ansible.builtin.apt:
     name: ['samba']
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
 
 - name: Configurando el password para acceso a samba de los usuarios
-  shell: "printf '{{ item.value }}\n{{ item.value }}\n' | smbpasswd -s -a {{ item.key }}"
+  ansible.builtin.shell: "printf '{{ item.value }}\n{{ item.value }}\n' | smbpasswd -s -a {{ item.key }}"
   with_items:
   - "{{ usuarios_smb | dict2items }}"
-  

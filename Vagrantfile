@@ -9,9 +9,11 @@ Vagrant.configure("2") do |config|
     s.vm.box = IMAGEN
     s.vm.hostname = "samba"
 
-    s.vm.provider :libvirt do |v| 
+    s.vm.provider :libvirt do |v|
       v.memory = 1024
       v.cpus = 2
+      v.storage :file, :size => '20G'
+      v.storage :file, :size => '20G'
     end
   end
 end

@@ -2,8 +2,8 @@
 - hosts: samba
   become: true
   gather_facts: false
-    
-  roles:	 
+
+  roles:
     - usuarios
-    - compartidas
-        
+    - { role: compartidas, tags: [ 'compartidas' ] }
+    - zfs

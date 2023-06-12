@@ -8,12 +8,19 @@ samba_conf: shares.conf
 
 # lista de usuarios con acceso a samba
 usuarios:
-  user1: pass1
-  user2: pass2
-  user3: pass3
+  user1: 4rcWSVkO6vc22gIp
+  user2: I8gisQLLAD97b2DZ
+  user3: zR2fCJxHNJCjuRz5
+
 
 usuarios_smb:
-  user1: pass_smb1 
-  user2: pass_smb2
-  user3: pass_smb3
-  
+  user1: user1.SMB.pass
+  user2: user2.SMB.pass
+  user3: user3.SMB.pass
+
+# opciones zfs
+zfs_pool_name: testing_pool
+zfs_filesystem: imagenes
+zfs_pool_dev1: '/dev/vdb'
+zfs_pool_dev2: '/dev/vdc'
+

@@ -1,0 +1,30 @@
+---
+- name: Incluye el archivo con las variables
+  ansible.builtin.include_vars:
+    file: vars_main.yml
+
+- name: Instalación ZFS
+  ansible.builtin.apt:
+    name: ['zfsutils-linux']
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Creando "{{ zfs_pool_name }}" para sedes
+  ansible.builtin.command: zpool create -O compression=gzip -f "{{ zfs_pool_name }}" raidz "{{ zfs_pool_dev1 }}" "{{ zfs_pool_dev2 }}"  -o ashift=12
+  changed_when: false
+
+- name: Creando filesystem en "{{ zfs_pool_name }}" + Activando shares
+  community.general.zfs:
+    name: "{{ zfs_pool_name }}/{{ zfs_filesystem }}"
+    state: present
+    extra_zfs_properties:
+      sharesmb: 'on'
+
+- name: Cambiando permisos de acceso a "{{ zfs_pool_name }}"
+  ansible.builtin.file:
+    path: "/{{ zfs_pool_name }}/"
+    owner: "{{ ansible_user }}"
+    group: "{{ grupos }}"
+    mode: 0755
+    recurse: true
+  notify: servicio_samba
