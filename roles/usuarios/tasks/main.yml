@@ -3,26 +3,37 @@
   ansible.builtin.include_vars:
     file: vars_main.yml
 
-- name: Crea el grupo "{{ grupos }}"
-  ansible.builtin.group:
-    name: "{{ grupos  }}"
-    state: present
-
-- name: Creando los usuarios
-  ansible.builtin.user:
-    name: "{{ item.key }}"
-    create_home: false
-    password: "{{ item.value | password_hash('sha512') }}"
-    shell: "/bin/false"
-    groups: "{{ grupos }}"
-    update_password: on_create
-  with_items: "{{ usuarios | dict2items }}"
-
 - name: Instalación Samba
   ansible.builtin.apt:
     name: ['samba']
     update_cache: true
     cache_valid_time: 3600
+
+- name: Crear los grupos
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ grupos }}"
+
+- name: Creando los usuarios para sueldos
+  ansible.builtin.user:
+    name: "{{ item.key }}"
+    create_home: false
+    password: "{{ item.value | password_hash('sha512') }}"
+    shell: "/bin/false"
+    groups: "{{ grupos[0] }}"
+    update_password: on_create
+  with_items: "{{ usuarios_sueldos | dict2items }}"
+
+- name: Creando los usuarios para administracion
+  ansible.builtin.user:
+    name: "{{ item.key }}"
+    create_home: false
+    password: "{{ item.value | password_hash('sha512') }}"
+    shell: "/bin/false"
+    groups: "{{ grupos[1] }}"
+    update_password: on_create
+  with_items: "{{ usuarios_administracion | dict2items }}"  
 
 - name: Configurando el password para acceso a samba de los usuarios
   ansible.builtin.shell: "printf '{{ item.value }}\n{{ item.value }}\n' | smbpasswd -s -a {{ item.key }}"

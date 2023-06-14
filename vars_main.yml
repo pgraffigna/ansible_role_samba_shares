@@ -1,22 +1,32 @@
 ---
-grupos: soporte_sedes
 ruta_smb: /etc/samba
 carpetas_compartidas: /compartidas/archivos
 compartida_publica: /compartidas/archivos_publicos
 compartida_privada: /compartidas/archivos_privados
 samba_conf: shares.conf
 
-# lista de usuarios con acceso a samba
-usuarios:
-  user1: 4rcWSVkO6vc22gIp
-  user2: I8gisQLLAD97b2DZ
-  user3: zR2fCJxHNJCjuRz5
+grupos:
+  - sueldos 
+  - administracion 
+  - sistemas
 
+usuarios_sueldos:
+  usuario_sueldos_1: 4rcWSVkO6vc22gIp
+  usuario_sueldos_2: I8gisQLLAD97b2DZ
+  usuario_sueldos_3: zR2fCJxHNJCjuRz5
+
+usuarios_administracion:
+  usuario_adm_1: 4rcWSVkO6vc22gIp
+  usuario_adm_2: 4rcWSVkO6vc22gIp
+  usuario_adm_3: 4rcWSVkO6vc22gIp
 
 usuarios_smb:
-  user1: user1.SMB.pass
-  user2: user2.SMB.pass
-  user3: user3.SMB.pass
+  usuario_sueldos_1: user1.SUELDOS.pass
+  usuario_sueldos_2: user2.SUELDOS.pass
+  usuario_sueldos_3: user3.SUELDOS.pass
+  usuario_adm_1: user1.ADM.pass
+  usuario_adm_2: user2.ADM.pass
+  usuario_adm_3: user3.ADM.pass
 
 # opciones zfs
 zfs_pool_name: testing_pool

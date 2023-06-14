@@ -1,5 +1,5 @@
 [samba]
-192.168.121.24
+192.168.121.88
 
 [samba:vars]
 ansible_ssh_user=vagrant

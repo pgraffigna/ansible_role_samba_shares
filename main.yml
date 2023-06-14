@@ -5,5 +5,5 @@
 
   roles:
     - usuarios
-    - { role: compartidas, tags: [ 'compartidas' ] }
-    - zfs
+    #- { role: compartidas, tags: [ 'compartidas' ] }
+    #- zfs
