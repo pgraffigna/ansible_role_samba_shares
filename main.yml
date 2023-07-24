@@ -4,6 +4,6 @@
   gather_facts: false
 
   roles:
-    - usuarios
-    #- { role: compartidas, tags: [ 'compartidas' ] }
-    #- zfs
+    - { role: usuarios, tags: ['usuarios'] }
+    - { role: zfs, tags: ['zfs'] }
+    - { role: compartidas, tags: ['compartidas'] }

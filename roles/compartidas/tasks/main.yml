@@ -32,4 +32,5 @@
   ansible.builtin.template:
     src: "files/{{ samba_conf }}.j2"
     dest: "{{ ruta_smb }}/{{ samba_conf }}"
+    mode: 0755
   notify: servicio_samba

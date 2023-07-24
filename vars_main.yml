@@ -6,8 +6,8 @@ compartida_privada: /compartidas/archivos_privados
 samba_conf: shares.conf
 
 grupos:
-  - sueldos 
-  - administracion 
+  - sueldos
+  - administracion
   - sistemas
 
 usuarios_sueldos:
@@ -29,8 +29,8 @@ usuarios_smb:
   usuario_adm_3: user3.ADM.pass
 
 # opciones zfs
-zfs_pool_name: testing_pool
-zfs_filesystem: imagenes
+zfs_pool_name: samba_pool
+zfs_filesystem: sueldos
 zfs_pool_dev1: '/dev/vdb'
 zfs_pool_dev2: '/dev/vdc'
 

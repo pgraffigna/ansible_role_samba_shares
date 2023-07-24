@@ -33,9 +33,8 @@
     shell: "/bin/false"
     groups: "{{ grupos[1] }}"
     update_password: on_create
-  with_items: "{{ usuarios_administracion | dict2items }}"  
+  with_items: "{{ usuarios_administracion | dict2items }}"
 
 - name: Configurando el password para acceso a samba de los usuarios
   ansible.builtin.shell: "printf '{{ item.value }}\n{{ item.value }}\n' | smbpasswd -s -a {{ item.key }}"
-  with_items:
-  - "{{ usuarios_smb | dict2items }}"
+  with_items: "{{ usuarios_smb | dict2items }}"

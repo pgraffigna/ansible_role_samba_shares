@@ -19,12 +19,13 @@
     state: present
     extra_zfs_properties:
       sharesmb: 'on'
+  ignore_errors: true
 
-- name: Cambiando permisos de acceso a "{{ zfs_pool_name }}"
+- name: Cambiando permisos de acceso a "{{ zfs_pool_name }}/{{ zfs_filesystem }}"
   ansible.builtin.file:
     path: "/{{ zfs_pool_name }}/"
-    owner: "{{ ansible_user }}"
-    group: "{{ grupos }}"
+    owner: vagrant
+    group: "{{ grupos[0] }}"
     mode: 0755
     recurse: true
   notify: servicio_samba
