@@ -6,4 +6,3 @@
   roles:
     - { role: usuarios, tags: ['usuarios'] }
     - { role: zfs, tags: ['zfs'] }
-    - { role: compartidas, tags: ['compartidas'] }

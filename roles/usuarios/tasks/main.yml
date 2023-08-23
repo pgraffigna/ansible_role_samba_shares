@@ -9,31 +9,41 @@
     update_cache: true
     cache_valid_time: 3600
 
-- name: Crear los grupos
+- name: Creando los grupos
   ansible.builtin.group:
     name: "{{ item }}"
     state: present
   with_items: "{{ grupos }}"
 
-- name: Creando los usuarios para sueldos
+- name: "Creando los usuarios para {{ grupos[0] }}"
   ansible.builtin.user:
-    name: "{{ item.key }}"
+    name: "{{ item }}"
     create_home: false
-    password: "{{ item.value | password_hash('sha512') }}"
+    password: '!'
     shell: "/bin/false"
     groups: "{{ grupos[0] }}"
     update_password: on_create
-  with_items: "{{ usuarios_sueldos | dict2items }}"
+  with_items: "{{ usuarios_sueldos }}"
 
-- name: Creando los usuarios para administracion
+- name: Creando los usuarios para "{{ grupos[1] }}"
   ansible.builtin.user:
-    name: "{{ item.key }}"
+    name: "{{ item }}"
     create_home: false
-    password: "{{ item.value | password_hash('sha512') }}"
+    password: '!'
     shell: "/bin/false"
     groups: "{{ grupos[1] }}"
     update_password: on_create
-  with_items: "{{ usuarios_administracion | dict2items }}"
+  with_items: "{{ usuarios_administracion }}"
+
+- name: Creando los usuarios para "{{ grupos[2] }}"
+  ansible.builtin.user:
+    name: "{{ item }}"
+    create_home: false
+    password: '!'
+    shell: "/bin/false"
+    groups: "{{ grupos[2] }}"
+    update_password: on_create
+  with_items: "{{ usuarios_sistemas }}"
 
 - name: Configurando el password para acceso a samba de los usuarios
   ansible.builtin.shell: "printf '{{ item.value }}\n{{ item.value }}\n' | smbpasswd -s -a {{ item.key }}"

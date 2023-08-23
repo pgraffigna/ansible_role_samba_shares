@@ -13,19 +13,25 @@
   ansible.builtin.command: zpool create -O compression=gzip -f "{{ zfs_pool_name }}" raidz "{{ zfs_pool_dev1 }}" "{{ zfs_pool_dev2 }}"  -o ashift=12
   changed_when: false
 
-- name: Creando filesystem en "{{ zfs_pool_name }}" + Activando shares
+- name: Creando filesystems en "{{ zfs_pool_name }}"
   community.general.zfs:
-    name: "{{ zfs_pool_name }}/{{ zfs_filesystem }}"
+    name: "{{ zfs_pool_name }}/{{ item }}"
     state: present
     extra_zfs_properties:
       sharesmb: 'on'
-  ignore_errors: true
+  with_items:
+    - sueldos
+    - administracion
+    - sistemas
 
-- name: Cambiando permisos de acceso a "{{ zfs_pool_name }}/{{ zfs_filesystem }}"
+- name: Cambiando permisos de acceso a compartida
   ansible.builtin.file:
-    path: "/{{ zfs_pool_name }}/"
-    owner: vagrant
-    group: "{{ grupos[0] }}"
-    mode: 0755
-    recurse: true
+    path: "/{{ zfs_pool_name }}/{{ item.compartida }}"
+    owner: root
+    group: "{{ item.grupo }}"
+    mode: 0775
+  with_items:
+    - { compartida: sueldos, grupo: sueldos }
+    - { compartida: administracion, grupo: administracion }
+    - { compartida: sistemas, grupo: sistemas }
   notify: servicio_samba
