@@ -15,7 +15,7 @@
     state: present
   with_items: "{{ grupos }}"
 
-- name: "Creando los usuarios para {{ grupos[0] }}"
+- name: Creando los usuarios
   ansible.builtin.user:
     name: "{{ item.nombre }}"
     create_home: false
