@@ -1,35 +1,13 @@
 ---
-# usuarios y grupos
 grupos:
   - sueldos
   - administracion
   - sistemas
-
-usuarios_sueldos:
-  - usuario_sueldos_1
-  - usuario_sueldos_2
-  - usuario_sueldos_3
-
-usuarios_administracion:
-  - usuario_adm_1
-  - usuario_adm_2
-  - usuario_adm_3
-
-usuarios_sistemas:
-  - usuario_sistemas_1
-  - usuario_sistemas_2
-  - usuario_sistemas_3
-
-usuarios_smb:
-  usuario_sueldos_1: user1.SUELDOS.pass
-  usuario_sueldos_2: user2.SUELDOS.pass
-  usuario_sueldos_3: user3.SUELDOS.pass
-  usuario_adm_1: user1.ADM.pass
-  usuario_adm_2: user1.ADM.pass
-  usuario_adm_3: user1.ADM.pass
-  usuario_sistemas_1: user1.SIS.pass
-  usuario_sistemas_2: user2.SIS.pass
-  usuario_sistemas_3: user3.SIS.pass
+  
+usuarios:
+  - { nombre: "sueldos_1", grupo: "{{ grupos[0] }}", password: "password123" }
+  - { nombre: "admins_1", grupo: "{{ grupos[1] }}", password: "testing123" } 
+  - { nombre: "sistemas_1", grupo: "{{ grupos[2] }}", password: "12340987" }
 
 # opciones zfs
 zfs_pool_name: samba_pool

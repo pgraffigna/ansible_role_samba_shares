@@ -17,34 +17,14 @@
 
 - name: "Creando los usuarios para {{ grupos[0] }}"
   ansible.builtin.user:
-    name: "{{ item }}"
+    name: "{{ item.nombre }}"
     create_home: false
     password: '!'
     shell: "/bin/false"
-    groups: "{{ grupos[0] }}"
+    groups: "{{ item.grupo }}"
     update_password: on_create
-  with_items: "{{ usuarios_sueldos }}"
-
-- name: Creando los usuarios para "{{ grupos[1] }}"
-  ansible.builtin.user:
-    name: "{{ item }}"
-    create_home: false
-    password: '!'
-    shell: "/bin/false"
-    groups: "{{ grupos[1] }}"
-    update_password: on_create
-  with_items: "{{ usuarios_administracion }}"
-
-- name: Creando los usuarios para "{{ grupos[2] }}"
-  ansible.builtin.user:
-    name: "{{ item }}"
-    create_home: false
-    password: '!'
-    shell: "/bin/false"
-    groups: "{{ grupos[2] }}"
-    update_password: on_create
-  with_items: "{{ usuarios_sistemas }}"
+  with_items: "{{ usuarios }}"
 
 - name: Configurando el password para acceso a samba de los usuarios
-  ansible.builtin.shell: "printf '{{ item.value }}\n{{ item.value }}\n' | smbpasswd -s -a {{ item.key }}"
-  with_items: "{{ usuarios_smb | dict2items }}"
+  ansible.builtin.shell: "printf '{{ item.password }}\n{{ item.password }}\n' | smbpasswd -s -a {{ item.nombre }}"
+  with_items: "{{ usuarios }}"
