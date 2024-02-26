@@ -15,23 +15,18 @@
 
 - name: Creando filesystems en "{{ zfs_pool_name }}"
   community.general.zfs:
-    name: "{{ zfs_pool_name }}/{{ item }}"
+    name: "{{ zfs_pool_name }}/share_{{ item.grupo }}"
     state: present
     extra_zfs_properties:
       sharesmb: 'on'
-  with_items:
-    - sueldos
-    - administracion
-    - sistemas
+      quota: 3G
+  with_items: "{{ usuarios }}"
 
 - name: Cambiando permisos de acceso a compartida
   ansible.builtin.file:
-    path: "/{{ zfs_pool_name }}/{{ item.compartida }}"
+    path: "/{{ zfs_pool_name }}/share_{{ item.grupo }}"
     owner: root
     group: "{{ item.grupo }}"
     mode: 0775
-  with_items:
-    - { compartida: sueldos, grupo: sueldos }
-    - { compartida: administracion, grupo: administracion }
-    - { compartida: sistemas, grupo: sistemas }
+  with_items: "{{ usuarios }}"
   notify: servicio_samba

@@ -1,0 +1,29 @@
+---
+- name: Incluye el archivo con las variables
+  ansible.builtin.include_vars:
+    file: vars_main.yml
+
+- name: Creando las carpetas compartidas
+  ansible.builtin.file:
+    path: "/home/share_{{ item.grupo }}"
+    state: directory
+    mode: "0755"
+    owner: "root"
+    group: "{{ item.grupo }}"
+  with_items: "{{ usuarios }}"
+
+- name: Agregar config para compartidas !! NO ES IDEMPOTENTE !!
+  ansible.builtin.blockinfile:
+    path: /etc/samba/smb.conf
+    block: |
+      [compartida_{{ item }}]
+      path = /home/share_{{ item }}
+      valid users = @{{ item }}
+      browseable = yes
+      writable = yes
+      read only = no
+      veto files= /*.exe/*.dll/*.bat/*.vbs/*.mp3/*.avi/*.mp4/*.wmv/*.wma/*.sh/*.pdf
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item }}"
+    marker_begin: '\n# BEGIN'
+  with_items: "{{ grupos }}"
+  notify: servicio_samba

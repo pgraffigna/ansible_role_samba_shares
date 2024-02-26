@@ -5,4 +5,6 @@
 
   roles:
     - { role: usuarios, tags: ['usuarios'] }
+    - { role: shares, tags: ['shares'] }
     - { role: zfs, tags: ['zfs'] }
+    

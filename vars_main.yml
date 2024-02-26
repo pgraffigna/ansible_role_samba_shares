@@ -1,15 +1,16 @@
 ---
+# samba
 grupos:
   - sueldos
   - administracion
   - sistemas
-  
+
 usuarios:
   - { nombre: "sueldos_1", grupo: "{{ grupos[0] }}", password: "password123" }
   - { nombre: "admins_1", grupo: "{{ grupos[1] }}", password: "testing123" } 
   - { nombre: "sistemas_1", grupo: "{{ grupos[2] }}", password: "12340987" }
 
-# opciones zfs
+# zfs
 zfs_pool_name: samba_pool
 zfs_pool_dev1: '/dev/vdb'
 zfs_pool_dev2: '/dev/vdc'
