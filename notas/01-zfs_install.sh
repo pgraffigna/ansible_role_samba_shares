@@ -8,20 +8,24 @@ FIN="\033[0m\e[0m"
 
 trap ctrl_c INT
 function ctrl_c(){
-        echo -e "\n${ROJO}[ZFS]Programa Terminado ${FIN}"
-        exit 0
+  echo -e "\n${ROJO}[ZFS]Programa Terminado ${FIN}"
+  exit 0
 }
 
-echo -e "\n${AMARILLO}[ZFS]Instalando los requisitos para usar ZFS ${FIN}"
-sudo apt update && sudo apt install -y zfsutils-linux
+echo -e "\n${AMARILLO}[ZFS] Instalando ZFS ${FIN}"
+if ! [ "$(command -v zfsutils-linux)" ]; then
+  sudo apt update && sudo apt install -y zfsutils-linux
+else
+  echo "El programa ya esta instalado..continuando"
+fi
 
-echo -e "\n${AMARILLO}[ZFS]Listando los discos disponibles para crear el RAID ${FIN}"
+echo -e "\n${AMARILLO}[ZFS]Listando los discos disponibles ${FIN}"
 lsblk -f
 
-echo -e "\n${AMARILLO}[ZFS]Creación del RAIDZ${FIN}"
+echo -e "\n${AMARILLO}[ZFS]Creación del RAIDz ${FIN}"
 read -p "Ingresa el nombre del POOL: " POOL
 
-read -p "[ZFS]Ingresa el nombre de los discos separados por espacio ej:
+read -p "Ingresa el nombre de los discos separados por espacio:
  >> " -ra DISCOS
 sudo zpool create -f "$POOL" "/dev/${DISCOS[@]}"
 

@@ -8,8 +8,8 @@ FIN="\033[0m\e[0m"
 #CTRL-C
 trap ctrl_c INT
 function ctrl_c(){
-        echo -e "\n${ROJO}[ZFS_USERS]Programa Terminado ${FIN}"
-        exit 0
+  echo -e "\n${ROJO}[ZFS_USERS]Programa Terminado ${FIN}"
+  exit 0
 }
 
 #Variables
