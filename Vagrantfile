@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
     s.vm.box = IMAGEN
     s.vm.hostname = HOSTNAME
     s.vm.provider :libvirt do |v|
+      v.disk_bus = 'virtio'
       v.memory = 1024
       v.cpus = 2
       v.graphics_type = 'none'
